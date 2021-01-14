@@ -65,7 +65,6 @@ if __name__ == "__main__":
 	parser.add_argument('-p', '--max_tasks_in_flight', type=int_type_max_tasks_in_flight, required=True, help="the maximum number of tasks that can be in flight to a worker")
 	parser.add_argument('-w', '--work_stealing_enabled', type=int_type_work_stealing_enabled, required=True, help="whether work stealing should be enabled")
 	parser.add_argument('-o', '--output_filename', required=True, help="the filepath to the output filename")
-
 	args = parser.parse_args()
 
 	print("Total sequential duration: {}".format(args.total_sequential_duration))
@@ -79,7 +78,6 @@ if __name__ == "__main__":
 	# 	print("RAY_BACKEND_LOG_LEVEL not set!")
 	# else:
 	# 	print("RAY_BACKEND_LOG_LEVEL set to {}".format(os.environ['RAY_BACKEND_LOG_LEVEL']))
-
 
 	task_duration = args.individual_task_duration / 1000.0
 	

@@ -1,11 +1,11 @@
 ## Parameters of the experiment
 # Fixed parameters (same for all jobs):
 ncpus=64
-ntrials=5
+ntrials=3
 total_sequential_duration=100 #Expressed in seconds
 #Variable parameters (different for different jobs)
-max_tasks_in_flight_vals=(1 2 5 10 15 20 25 30 50 64 80 100 150)
-individual_task_durations=(1 10 50 100 500 1000) #Expressed in milliseconds.
+max_tasks_in_flight_vals=(1 5 20 64 150)
+individual_task_durations=(10 50 100 500 1000) #Expressed in milliseconds.
 
 
 # Create a new folder for the data
@@ -35,8 +35,8 @@ for work_stealing in ${work_stealing_options[@]}; do
 		for task_duration in ${individual_task_durations[@]}; do
 			echo ${task_duration} >> ${output_file}
 			for (( i=0; i<$ntrials; ++i)); do
-				python execute_tasks.py -s ${total_sequential_duration} -i ${task_duration} -c ${ncpus} -p ${max_tasks_in_flight} -w ${work_stealing} -o ${output_file}
-				ray stop -f
+				timeout 200s python execute_tasks.py -s ${total_sequential_duration} -i ${task_duration} -c ${ncpus} -p ${max_tasks_in_flight} -w ${work_stealing} -o ${output_file}
+				ray stop --force
 			done
 		done
 	done

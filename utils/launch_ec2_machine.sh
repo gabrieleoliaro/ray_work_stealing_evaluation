@@ -1,7 +1,7 @@
 if [ $1 -eq 1 ]; then
 	ray up ./utils/ray_autoscaling.yaml ; 
-	ray attach ./utils/ray_autoscaling.yaml 
-	#&& ./utils/syncronizer.sh && 
+	./utils/sync_ec2_with_local_folder.sh;
+	ray attach ./utils/ray_autoscaling.yaml
 elif [ $1 -eq 0 ]; then
 	ray down ./utils/ray_autoscaling.yaml
 else

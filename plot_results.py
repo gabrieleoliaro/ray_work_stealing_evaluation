@@ -65,6 +65,8 @@ if __name__ == "__main__":
 				temp = np.full(ntrials, np.inf)
 				for trial in range(ntrials):
 					temp[trial] = float(lines[line_index].strip().split()[0])
+					if (temp[trial] == -1):
+						temp[trial] = np.nan
 					line_index += 1
 				#print(temp)
 				Y0[x,0] = np.mean(temp)

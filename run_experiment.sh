@@ -35,7 +35,7 @@ for work_stealing in ${work_stealing_options[@]}; do
 		for task_duration in ${individual_task_durations[@]}; do
 			echo ${task_duration} >> ${output_file}
 			for (( i=0; i<$ntrials; ++i)); do
-				timeout 200s python execute_tasks.py -s ${total_sequential_duration} -i ${task_duration} -c ${ncpus} -p ${max_tasks_in_flight} -w ${work_stealing} -o ${output_file}
+				timeout 200s python execute_tasks.py -s ${total_sequential_duration} -i ${task_duration} -c ${ncpus} -p ${max_tasks_in_flight} -w ${work_stealing} -o ${output_file} -d 1
 				ray stop --force
 			done
 		done

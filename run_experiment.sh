@@ -27,7 +27,6 @@ echo "each file represents a job and it is named as follows: data-<number1>-WS-<
 
 #export RAY_BACKEND_LOG_LEVEL=debug
 
-# Work stealing not enabled
 work_stealing_options=(0 1)
 for work_stealing in ${work_stealing_options[@]}; do
 	for max_tasks_in_flight in ${max_tasks_in_flight_vals[@]}; do

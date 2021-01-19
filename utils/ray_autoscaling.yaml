@@ -30,8 +30,8 @@ idle_timeout_minutes: 15
 # Cloud-provider specific configuration.
 provider:
     type: aws
-    region: us-east-2
-    availability_zone: us-east-2a,us-east-2b
+    region: us-east-2 #eu-south-1
+    availability_zone: us-east-2a,us-east-2b # eu-south-1, eu-central-1, eu-west-3
     # Whether to allow node reuse. If set to False, nodes will be terminated
     # instead of stopped.
     cache_stopped_nodes: True # If not present, the default is True.
@@ -118,7 +118,7 @@ initialization_commands: []
 
 # List of shell commands to run to set up nodes.
 setup_commands: []
-    # Consider uncommenting these if you run into dpkg locking issues
+    # # Consider uncommenting these if you run into dpkg locking issues
     # - sudo pkill -9 apt-get || true
     # - sudo pkill -9 dpkg || true
     # - sudo dpkg --configure -a
@@ -146,8 +146,8 @@ setup_commands: []
     # # Set the bazel cache
     # - echo 'build --disk_cache=~/bazel-cache' >> ~/.bazelrc
     # - cd ray/python; pip install -e . --verbose
-    # Set the Ray debugging environmental variable
-    #- echo 'export RAY_BACKEND_LOG_LEVEL="debug"' >> ~/.bashrc
+    # # Set the Ray debugging environmental variable
+    # #- echo 'export RAY_BACKEND_LOG_LEVEL="debug"' >> ~/.bashrc
     
     
  

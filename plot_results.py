@@ -104,7 +104,7 @@ if __name__ == "__main__":
 
 
 		a+=1
-	assert(a == len(X))
+	assert(a == len(max_tasks_in_flight_vals))
 	
 	######### Plots with individual task duration on X-axis #########
 	a=0
@@ -122,8 +122,9 @@ if __name__ == "__main__":
 		plt.savefig(plot_filepath)
 		plt.show()
 		a+=1
-	assert(a == len(X))
+	assert(a == len(max_tasks_in_flight_vals))
 
+	X = np.array(max_tasks_in_flight_vals).astype(int)
 	######### Plots with max_tasks_in_flight  on X-axis #########
 	for b in range(len(X)):
 		plt.figure()

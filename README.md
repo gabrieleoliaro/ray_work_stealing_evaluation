@@ -1,8 +1,11 @@
-# ray_work_stealing_evaluation
+# Evaluation of the new work stealing functionality for Ray
 
 This repository contains a set of scripts that allow one to launch a Ray cluster on AWS and benchmark the task pipelining / work stealing functionalities, which are currently under development. The repo also contains the data and plots from the most recent experiments (will be updated every time we introduce a change to the code). 
 
-The **task pipelining functionalities** have already been merged to the [ray-project/ray](https://github.com/ray-project/ray) master branch (see [PR here](https://github.com/ray-project/ray/commit/026c0090865373c87065fa0fe9972afc1a769514)). Work stealing, on the other hand is in the final stages of development in [this branch](https://github.com/gabrieleoliaro/ray/tree/WS1_official), although two PRs related to work stealing (see [here](https://github.com/ray-project/ray/pull/10225), and [here](https://github.com/ray-project/ray/pull/11051)) have already been merged to the [ray-project/ray](https://github.com/ray-project/ray) master branch.
+The **task pipelining functionalities** have already been merged to the [ray-project/ray](https://github.com/ray-project/ray) master branch (see [PR here](https://github.com/ray-project/ray/commit/026c0090865373c87065fa0fe9972afc1a769514)). 
+
+**Work stealing**, on the other hand is in the final stages of development in [this branch](https://github.com/gabrieleoliaro/ray/tree/atomic_work_stealing), although two PRs related to work stealing (see [here](https://github.com/ray-project/ray/pull/10225), and [here](https://github.com/ray-project/ray/pull/11051)) have already been merged to the [ray-project/ray](https://github.com/ray-project/ray) master branch.
+
 
 ## Scripts
 
@@ -33,15 +36,15 @@ Each plot corresponds to a different setting for the `max_tasks_in_flight_per_wo
 The plots have two curves: a baseline curve (in blue), showing the performance of Ray when work stealing is not enabled and a second curve (in orange), showing the performance of Ray when work stealing is enabled. Each curve shows the parallel execution time of a workload as a function of the individual task duration. In particular, we used the following values for the individual task duration: 10ms, 50ms, 100ms, 500ms or 1000ms. 
 
 
-![Plot1](https://github.com/gabrieleoliaro/ray_work_stealing_evaluation/blob/main/output/2021-01-19-10:21:12/plots/plot-1-MTIF.png)
+![Plot1](https://github.com/gabrieleoliaro/ray_work_stealing_evaluation/blob/main/output/2021-04-23-03:08:34/plots/plot-1-MTIF.png)
 
-![Plot5](https://github.com/gabrieleoliaro/ray_work_stealing_evaluation/blob/main/output/2021-01-19-10:21:12/plots/plot-5-MTIF.png)
+![Plot5](https://github.com/gabrieleoliaro/ray_work_stealing_evaluation/blob/main/output/2021-04-23-03:08:34/plots/plot-5-MTIF.png)
 
-![Plot1](https://github.com/gabrieleoliaro/ray_work_stealing_evaluation/blob/main/output/2021-01-19-10:21:12/plots/plot-20-MTIF.png)
+![Plot1](https://github.com/gabrieleoliaro/ray_work_stealing_evaluation/blob/main/output/2021-04-23-03:08:34/plots/plot-20-MTIF.png)
 
-![Plot1](https://github.com/gabrieleoliaro/ray_work_stealing_evaluation/blob/main/output/2021-01-19-10:21:12/plots/plot-64-MTIF.png)
+![Plot1](https://github.com/gabrieleoliaro/ray_work_stealing_evaluation/blob/main/output/2021-04-23-03:08:34/plots/plot-64-MTIF.png)
 
-![Plot1](https://github.com/gabrieleoliaro/ray_work_stealing_evaluation/blob/main/output/2021-01-19-10:21:12/plots/plot-150-MTIF.png)
+![Plot1](https://github.com/gabrieleoliaro/ray_work_stealing_evaluation/blob/main/output/2021-04-23-03:08:34/plots/plot-150-MTIF.png)
 
 #### Data files
 As described in the [experiment.info](https://github.com/gabrieleoliaro/ray_work_stealing_evaluation/blob/main/output/2021-01-19-10:21:12/experiment.info) file, each data file in the output folder is named using the template `data-<number1>-WS-<number2>-MTIF.txt`, where `<number1>` (which can only be 1 or 0) indicates whether Work Stealing (WS) was enabled and `<number2>` indicates the Maximum Number of Tasks (MTIF). For instance, the file [data-0-WS-150-MTIF.txt](https://github.com/gabrieleoliaro/ray_work_stealing_evaluation/blob/main/output/2021-01-19-10:21:12/data-0-WS-150-MTIF.txt) contains the data from the experiment where work stealing was not enabled (`<number1>`=0), and the `max_tasks_in_flight_per_worker` param was set to 150 tasks (`<number2>`=150).

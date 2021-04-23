@@ -46,6 +46,7 @@ if __name__ == "__main__":
 	# Define x axis to be the list of individual task durations considered in the experiments 
 	# (i.e. the time taken to execute each task on its own).
 	X = np.array(task_duration_vals).astype(int)
+	print(X)
 	
 	# Each cell of the Y arrays is 2-dimensional and it contains the (mean, stdv) of the parallel
 	# execution time across the various trials of a given experiment. The first dimension of Y
@@ -119,14 +120,18 @@ if __name__ == "__main__":
 		plt.ylabel("Total parallel execution time")
 		plt.legend(("Baseline", "Work stealing enabled"))
 		plot_filepath = "{}/plots/task_dur_x_axis/plot-{}-MTIF.png".format(data_folder, tasks_in_flight)
+		print("Saving {}".format(plot_filepath))
 		plt.savefig(plot_filepath)
 		plt.show()
 		a+=1
 	assert(a == len(max_tasks_in_flight_vals))
 
+
 	X = np.array(max_tasks_in_flight_vals).astype(int)
-	######### Plots with max_tasks_in_flight  on X-axis #########
-	for b in range(len(X)):
+	print(X)
+	b=0
+	######### Plots with max_tasks_in_flight on X-axis #########
+	for task_duration in task_duration_vals:
 		plt.figure()
 		plt.errorbar(X, Y0[:,b,0], yerr=Y0[:,b,1])
 		plt.errorbar(X, Y1[:,b,0], yerr=Y1[:,b,1])
@@ -138,7 +143,10 @@ if __name__ == "__main__":
 		plt.legend(("Baseline", "Work stealing enabled"))
 		plot_filepath = "{}/plots/max_tasks_in_flight_x_axis/plot-{}-ITD.png".format(data_folder, X[b])
 		plt.savefig(plot_filepath)
+		print("Saving {}".format(plot_filepath))
 		plt.show()
+		b+=1
+	assert(b == len(task_duration_vals))
 
 
 	

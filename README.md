@@ -19,7 +19,7 @@ This repository contains the following scripts:
 ## Results
 The [output folder](https://github.com/gabrieleoliaro/ray_work_stealing_evaluation/tree/main/output) contains the most recent experiment results. Each subfolder (whose name is the date/time when the experiment was run) contains an automatically generated `experiment.info` file with the information about the experiment, the text files with the raw data, and a `plots` folder with the corresponding plots.
 
-The Apr 23 experiments were executed using the code in the new work stealing PR: https://github.com/ray-project/ray/pull/15475 . The Jan 19 experiments were executed using the code in the branch: https://github.com/gabrieleoliaro/ray/tree/work_stealing
+The Apr 23 experiments were executed using the code in the new work stealing PR: https://github.com/ray-project/ray/pull/15475 . The two Apr 23 folders differ only in the values for the max_tasks_in_flight params used. The Jan 19 experiments were executed using the code in the branch: https://github.com/gabrieleoliaro/ray/tree/work_stealing
 
 ### The latest experiment
 

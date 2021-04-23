@@ -4,7 +4,7 @@ ncpus=64
 ntrials=3
 total_sequential_duration=100 #Expressed in seconds
 #Variable parameters (different for different jobs)
-max_tasks_in_flight_vals=(1 5 20 64 150)
+max_tasks_in_flight_vals=(1 2 5 10 20 32 50 64 100)
 individual_task_durations=(10 50 100 500 1000) #Expressed in milliseconds.
 
 

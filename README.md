@@ -57,15 +57,15 @@ Each plot corresponds to a different setting for the duration of each task in th
 The plots have two curves: a baseline curve (in blue), showing the performance of Ray when work stealing is not enabled and a second curve (in orange), showing the performance of Ray when work stealing is enabled. Each curve shows the parallel execution time of a workload as a function of the max tasks in flight. In particular, we used the following values for the individual task duration: 1, 5, 20, 64, and 150. 
 
 
-![Plot1](https://github.com/gabrieleoliaro/ray_work_stealing_evaluation/blob/main/output/2021-04-23-03:08:34/plots/max_tasks_in_flight_x_axis/plot-10-ITD.png)
+![Plot1](https://github.com/gabrieleoliaro/ray_work_stealing_evaluation/blob/main/output/2021-04-23-03:08:34/plots/max_tasks_in_flight_x_axis/plot-1-ITD.png)
 
-![Plot5](https://github.com/gabrieleoliaro/ray_work_stealing_evaluation/blob/main/output/2021-04-23-03:08:34/plots/max_tasks_in_flight_x_axis/plot-50-ITD.png)
+![Plot5](https://github.com/gabrieleoliaro/ray_work_stealing_evaluation/blob/main/output/2021-04-23-03:08:34/plots/max_tasks_in_flight_x_axis/plot-5-ITD.png)
 
-![Plot1](https://github.com/gabrieleoliaro/ray_work_stealing_evaluation/blob/main/output/2021-04-23-03:08:34/plots/max_tasks_in_flight_x_axis/plot-100-ITD.png)
+![Plot1](https://github.com/gabrieleoliaro/ray_work_stealing_evaluation/blob/main/output/2021-04-23-03:08:34/plots/max_tasks_in_flight_x_axis/plot-20-ITD.png)
 
-![Plot1](https://github.com/gabrieleoliaro/ray_work_stealing_evaluation/blob/main/output/2021-04-23-03:08:34/plots/max_tasks_in_flight_x_axis/plot-500-ITD.png)
+![Plot1](https://github.com/gabrieleoliaro/ray_work_stealing_evaluation/blob/main/output/2021-04-23-03:08:34/plots/max_tasks_in_flight_x_axis/plot-65-ITD.png)
 
-![Plot1](https://github.com/gabrieleoliaro/ray_work_stealing_evaluation/blob/main/output/2021-04-23-03:08:34/plots/max_tasks_in_flight_x_axis/plot-1000-ITD.png)
+![Plot1](https://github.com/gabrieleoliaro/ray_work_stealing_evaluation/blob/main/output/2021-04-23-03:08:34/plots/max_tasks_in_flight_x_axis/plot-150-ITD.png)
 
 #### Data files
 As described in the [experiment.info](https://github.com/gabrieleoliaro/ray_work_stealing_evaluation/blob/main/output/2021-04-23-03:08:34/experiment.info) file, each data file in the output folder is named using the template `data-<number1>-WS-<number2>-MTIF.txt`, where `<number1>` (which can only be 1 or 0) indicates whether Work Stealing (WS) was enabled and `<number2>` indicates the Maximum Number of Tasks (MTIF). For instance, the file [data-0-WS-150-MTIF.txt](https://github.com/gabrieleoliaro/ray_work_stealing_evaluation/blob/main/output/2021-04-23-03:08:34/data-0-WS-150-MTIF.txt) contains the data from the experiment where work stealing was not enabled (`<number1>`=0), and the `max_tasks_in_flight_per_worker` param was set to 150 tasks (`<number2>`=150).

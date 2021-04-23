@@ -43,7 +43,7 @@ if __name__ == "__main__":
 	print("Task duration values: ", task_duration_vals)
 	print("Data folder path: ", data_folder)
 
-	# Define x axis to be the list of sequential durations
+	# Define x axis to be the list of individual task durations
 	X = np.array(task_duration_vals).astype(int)
 	
 	# For each value in the max tasks in flight, open corresponding file (for WS=0 or WS=1), create y axis by computing average and std (based on ntrials), then plot

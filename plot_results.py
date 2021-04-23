@@ -127,21 +127,21 @@ if __name__ == "__main__":
 	assert(a == len(max_tasks_in_flight_vals))
 
 
-	X = np.array(max_tasks_in_flight_vals).astype(int)
-	print(X)
+	X2 = np.array(max_tasks_in_flight_vals).astype(int)
+	print(X2)
 	b=0
 	######### Plots with max_tasks_in_flight on X-axis #########
 	for task_duration in task_duration_vals:
 		plt.figure()
-		plt.errorbar(X, Y0[:,b,0], yerr=Y0[:,b,1])
-		plt.errorbar(X, Y1[:,b,0], yerr=Y1[:,b,1])
+		plt.errorbar(X2, Y0[:,b,0], yerr=Y0[:,b,1])
+		plt.errorbar(X2, Y1[:,b,0], yerr=Y1[:,b,1])
 
-		plt.title("Parallel execution time vs max_tasks_in_flight \n Total Seq duration={}s, Individual task duration={}ms".format(seq_duration, X[b]))
-		plt.xticks(X)
+		plt.title("Parallel execution time vs max_tasks_in_flight \n Total Seq duration={}s, Individual task duration={}ms".format(seq_duration, task_duration))
+		plt.xticks(X2)
 		plt.xlabel("Max Tasks in Flight")
 		plt.ylabel("Total parallel execution time")
 		plt.legend(("Baseline", "Work stealing enabled"))
-		plot_filepath = "{}/plots/max_tasks_in_flight_x_axis/plot-{}-ITD.png".format(data_folder, X[b])
+		plot_filepath = "{}/plots/max_tasks_in_flight_x_axis/plot-{}-ITD.png".format(data_folder, task_duration)
 		plt.savefig(plot_filepath)
 		print("Saving {}".format(plot_filepath))
 		plt.show()

@@ -27,14 +27,14 @@ echo "each file represents a job and it is named as follows: data-<number1>-WS-<
 
 #export RAY_BACKEND_LOG_LEVEL=debug
 
-work_stealing_options=(0 1)
+work_stealing_options=(1 0)
 for work_stealing in ${work_stealing_options[@]}; do
 	for max_tasks_in_flight in ${max_tasks_in_flight_vals[@]}; do
 		output_file="${output_path}/data-${work_stealing}-WS-${max_tasks_in_flight}-MTIF.txt"
 		for task_duration in ${individual_task_durations[@]}; do
 			echo ${task_duration} >> ${output_file}
 			for (( i=0; i<$ntrials; ++i)); do
-				timeout 200s python execute_tasks.py -s ${total_sequential_duration} -i ${task_duration} -c ${ncpus} -p ${max_tasks_in_flight} -w ${work_stealing} -o ${output_file} -d 1
+				timeout 200s python execute_tasks.py -s ${total_sequential_duration} -i ${task_duration} -c ${ncpus} -p ${max_tasks_in_flight} -w ${work_stealing} -o ${output_file} -d 0
 				ray stop --force
 			done
 		done

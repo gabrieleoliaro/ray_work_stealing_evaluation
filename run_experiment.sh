@@ -42,5 +42,5 @@ for work_stealing in ${work_stealing_options[@]}; do
 done
 
 
-cd ${output_path} && mkdir plots && cd ../..
+cd ${output_path} && mkdir -p plots/max_tasks_in_flight_x_axis && mkdir -p plots/task_dur_x_axis && cd ../..
 python plot_results.py -t ${ntrials} -p "${max_tasks_in_flight_vals[*]}" -s ${total_sequential_duration} -i "${individual_task_durations[*]}" -o ${output_path}

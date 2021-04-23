@@ -118,12 +118,12 @@ initialization_commands: []
 
 # List of shell commands to run to set up nodes.
 setup_commands: []
-    # # Consider uncommenting these if you run into dpkg locking issues
-    # - sudo pkill -9 apt-get || true
-    # - sudo pkill -9 dpkg || true
-    # - sudo dpkg --configure -a
-    # # Install basics.
-    # - sudo apt-get update && sudo apt-get upgrade
+    # # # Consider uncommenting these if you run into dpkg locking issues
+    # # - sudo pkill -9 apt-get || true
+    # # - sudo pkill -9 dpkg || true
+    # # - sudo dpkg --configure -a
+    # # # Install basics.
+    # - sudo apt-get upgrade && sudo apt-get update
     # - sudo apt-get install -y build-essential curl unzip psmisc
     # - sudo apt install gcc git gnupg g++ make
     # - sudo apt install default-jre default-jdk
@@ -138,11 +138,11 @@ setup_commands: []
     # - conda install redis-py
     # # Build Ray.
     # - git clone https://github.com/gabrieleoliaro/ray.git || true
-    # - cd ray && git checkout -b WS1_official && cd .. || true
+    # - cd ray && git checkout atomic_work_stealing && cd .. || true
     # - pip install PyQt5==5.12.3 PyQtWebEngine==5.12.1 pytest-cov pytest-filter-subpackage
     # - sudo ray/ci/travis/install-bazel.sh
-    # - cd ray/python/ray/dashboard/client; sudo npm ci; sudo npm run build
-    # - pip install boto3==1.4.8 cython==0.29.0 aiohttp grpcio psutil setproctitle
+    # - cd ray/dashboard/client; sudo npm install; sudo npm run build
+    # - pip install boto3==1.4.8 cython==0.29.0 pytest aiohttp grpcio psutil setproctitle 
     # # Set the bazel cache
     # - echo 'build --disk_cache=~/bazel-cache' >> ~/.bazelrc
     # - cd ray/python; pip install -e . --verbose

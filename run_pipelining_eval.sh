@@ -1,7 +1,7 @@
 ## Parameters of the experiment
 # Fixed parameters (same for all jobs):
 ntrials=3
-total_n_tasks=100000
+total_n_tasks=50000
 #Variable parameters (different for different jobs)
 max_tasks_in_flight_vals=(1 2 3 4 5 10 15 20 25 50 100)
 ncpus=(1 2 5 10 15 20 35 50 64) #Expressed in milliseconds.

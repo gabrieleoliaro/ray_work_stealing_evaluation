@@ -1,0 +1,9 @@
+Experiment parameters:
+ncpus=64
+ntrials=3
+total_sequential_duration=100
+max_tasks_in_flight_vals=(1 2 5 10 20 32 50 64 100)
+individual_task_durations=(10 50 100 500 1000)
+
+Experiment files:
+each file represents a job and it is named as follows: data-<number1>-WS-<number2>-MTIF.txt, where <number1> (which can only be 1 or 0) indicates whether Work Stealing (WS) was enabled and <number2> indicates the Maximum Number of Tasks (MTIF)

@@ -92,6 +92,7 @@ if __name__ == "__main__":
 	#ray.init(_system_config=config)
 	time.sleep(1.0)
 
+	ntasks = args.total_n_tasks
 
 	start = time.time()
 	futures = [f.remote() for i in range(ntasks)]

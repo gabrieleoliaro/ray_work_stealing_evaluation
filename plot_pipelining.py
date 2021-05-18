@@ -17,8 +17,18 @@ def int_type_total_n_tasks(l):
 	except: raise argparse.ArgumentTypeError("Total number of tasks parameter is not a valid integer")
 	
 	if seq_duration < 1 or seq_duration > 1000000:
-		raise argparse.ArgumentTypeError("Sequential duration must be in the [1, 1000000] range")
+		raise argparse.ArgumentTypeError("Total number of tasks parameter must be in the [1, 1000000] range")
 	return seq_duration
+
+
+def int_type_x_axis_entries(l):
+	# Validity check of the x_axis_entries param
+	try: x_axis_entries = int(l)
+	except: raise argparse.ArgumentTypeError("x_axis_entries parameter is not a valid integer")
+	
+	if x_axis_entries < 1 or x_axis_entries > 30:
+		raise argparse.ArgumentTypeError("x_axis_entries must be in the [1, 30] range")
+	return x_axis_entries
 
 
 if __name__ == "__main__":
@@ -28,6 +38,7 @@ if __name__ == "__main__":
 	parser.add_argument('-p', '--max_tasks_in_flight', type=str, required=True, help="the max tasks in flight values (delimited list input)")
 	parser.add_argument('-n', '--total_n_tasks', type=int_type_total_n_tasks, required=True, help="the total number of instantaneous tasks to execute")
 	parser.add_argument('-c', '--ncpus', type=str, required=True, help="the number of cores used (delimited list input)")
+	parser.add_argument('-x', '--x_axis_entries', type=int_type_x_axis_entries, required=True, help="the max number of max_tasks_in_flight entries to plot on the x-axis")
 	parser.add_argument('-o', '--data_folder', required=True, help="the path to the data folder")
 	args = parser.parse_args()
 
@@ -35,13 +46,18 @@ if __name__ == "__main__":
 	max_tasks_in_flight_vals = [int(item) for item in args.max_tasks_in_flight.split()]
 	total_n_tasks = args.total_n_tasks
 	ncpus = [int(item) for item in args.ncpus.split()]
+	x_axis_entries = args.x_axis_entries
 	data_folder = args.data_folder
+
+	assert(x_axis_entries <= len(max_tasks_in_flight_vals))
 	
 	print("Number of trials: {}".format(ntrials))
 	print("Max tasks in flight: ", max_tasks_in_flight_vals)
 	print("Total Number of Tasks: {}".format(total_n_tasks))
 	print("Number of cores values: ", ncpus)
+	print("Number of X-axis entries: ", x_axis_entries)
 	print("Data folder path: ", data_folder)
+
 
 	# Define x axis to be the list of max_tasks_in_flight_vals considered in the experiments 
 	X = np.array(max_tasks_in_flight_vals).astype(int)
@@ -57,7 +73,7 @@ if __name__ == "__main__":
 
 	for a in range(C):
 		work_stealing = 0
-		data_filepath = "{}/data-{}-WS-{}-CPUS.txt".format(data_folder, work_stealing, ncpus[a])
+		input_filename = "{}/data-{}-WS-{}-CPUS.txt".format(data_folder, work_stealing, ncpus[a])
 		print("Opening input file: {}".format(input_filename))
 		assert(os.path.isfile(input_filename))
 		with open(input_filename, 'r') as input_file:
@@ -77,7 +93,7 @@ if __name__ == "__main__":
 				Y0[a,b,1] = np.std(temp)
 
 		work_stealing = 1
-		data_filepath = "{}/data-{}-WS-{}-CPUS.txt".format(data_folder, work_stealing, ncpus[a])
+		input_filename = "{}/data-{}-WS-{}-CPUS.txt".format(data_folder, work_stealing, ncpus[a])
 		print("Opening input file: {}".format(input_filename))
 		assert(os.path.isfile(input_filename))
 		with open(input_filename, 'r') as input_file:
@@ -101,14 +117,14 @@ if __name__ == "__main__":
 	# Generate Work Stealing = false plot
 	plt.figure()
 	for a in range(C):
-		plt.errorbar(X, Y0[a,:,0], yerr=Y0[a,:,1])
+		plt.errorbar(X[:x_axis_entries], Y0[a,:x_axis_entries,0], yerr=Y0[a,:x_axis_entries,1])
 
 	plt.title("Task throughput vs max_tasks_in_flight \n NTasks={}, Task duration: instantaneous".format(total_n_tasks))
-	plt.xticks(X)
+	plt.xticks(X[:x_axis_entries])
 	plt.xlabel("Max Tasks in Flight to workers")
 	plt.ylabel("Task throughput (task/second)")
 	plt.legend(ncpus)
-	plot_filepath = "{}/plots/plot_task_throughput-0-WS.png".format(data_folder)
+	plot_filepath = "{}/plots/plot_task_throughput-0-WS-{}-x_ticks.png".format(data_folder, x_axis_entries)
 	plt.savefig(plot_filepath)
 	print("Saving {}".format(plot_filepath))
 	plt.show()
@@ -118,14 +134,14 @@ if __name__ == "__main__":
 	# Generate Work Stealing = true plot
 	plt.figure()
 	for a in range(C):
-		plt.errorbar(X, Y1[a,:,0], yerr=Y1[a,:,1])
+		plt.errorbar(X[:x_axis_entries], Y1[a,:x_axis_entries,0], yerr=Y1[a,:x_axis_entries,1])
 
 	plt.title("Task throughput vs max_tasks_in_flight \n NTasks={}, Task duration: instantaneous".format(total_n_tasks))
-	plt.xticks(X)
+	plt.xticks(X[:x_axis_entries])
 	plt.xlabel("Max Tasks in Flight to workers")
 	plt.ylabel("Task throughput (task/second)")
 	plt.legend(ncpus)
-	plot_filepath = "{}/plots/plot_task_throughput-1-WS.png".format(data_folder)
+	plot_filepath = "{}/plots/plot_task_throughput-1-WS-{}-x_ticks.png".format(data_folder,x_axis_entries)
 	plt.savefig(plot_filepath)
 	print("Saving {}".format(plot_filepath))
 	plt.show()

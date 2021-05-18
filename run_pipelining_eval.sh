@@ -41,4 +41,4 @@ done
 
 
 cd ${output_path} && mkdir -p plots && cd ../..
-python plot_pipelining.py -t ${ntrials} -p "${max_tasks_in_flight_vals[*]}" -n ${total_n_tasks} -i "${individual_task_durations[*]}" -o ${output_path}
+python plot_pipelining.py -t ${ntrials} -p "${max_tasks_in_flight_vals[*]}" -n ${total_n_tasks} -c "${ncpus[*]}" -x 9 -o ${output_path}

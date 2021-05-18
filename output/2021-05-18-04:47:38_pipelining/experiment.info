@@ -1,0 +1,8 @@
+Experiment parameters:
+ntrials=3
+total_n_tasks=50000
+max_tasks_in_flight_vals=(1 2 3 4 5 10 15 20 25 50 100)
+ncpus=(1 2 5 10 15 20 35 50 64)
+
+Experiment files:
+each file represents a job and it is named as follows: data-<number1>-WS-<number2>-CPUS.txt, where <number1> (which can only be 1 or 0) indicates whether Work Stealing (WS) was enabled and <number2> indicates the number of CPUS used

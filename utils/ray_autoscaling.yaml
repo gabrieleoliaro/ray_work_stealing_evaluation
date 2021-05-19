@@ -117,37 +117,37 @@ initialization_commands: []
 
 
 # List of shell commands to run to set up nodes.
-setup_commands: []
-    # # # Consider uncommenting these if you run into dpkg locking issues
-    # # - sudo pkill -9 apt-get || true
-    # # - sudo pkill -9 dpkg || true
-    # # - sudo dpkg --configure -a
-    # # # Install basics.
-    # - sudo apt-get upgrade && sudo apt-get update
-    # - sudo apt-get install -y build-essential curl unzip psmisc
-    # - sudo apt install gcc git gnupg g++ make
-    # - sudo apt install default-jre default-jdk
-    # - sudo apt install redis-tools
-    # # Install Node.js in order to build the dashboard.
-    # - curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash
-    # - sudo apt-get install -y nodejs
-    # # Install Anaconda.
-    # - wget https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh || true
-    # - bash Anaconda3-2020.02-Linux-x86_64.sh -b -p $HOME/anaconda3 || true
-    # - echo 'export PATH="$HOME/anaconda3/bin:$PATH"' >> ~/.bashrc
-    # - conda install redis-py
-    # # Build Ray.
-    # - git clone https://github.com/gabrieleoliaro/ray.git || true
-    # - cd ray && git checkout atomic_work_stealing && cd .. || true
-    # - pip install PyQt5==5.12.3 PyQtWebEngine==5.12.1 pytest-cov pytest-filter-subpackage
-    # - sudo ray/ci/travis/install-bazel.sh
-    # - cd ray/dashboard/client; sudo npm install; sudo npm run build
-    # - pip install boto3==1.4.8 cython==0.29.0 pytest aiohttp grpcio psutil setproctitle 
-    # # Set the bazel cache
-    # - echo 'build --disk_cache=~/bazel-cache' >> ~/.bazelrc
-    # - cd ray/python; pip install -e . --verbose
-    # # Set the Ray debugging environmental variable
-    # #- echo 'export RAY_BACKEND_LOG_LEVEL="debug"' >> ~/.bashrc
+setup_commands: #[]
+    # # Consider uncommenting these if you run into dpkg locking issues
+    # - sudo pkill -9 apt-get || true
+    # - sudo pkill -9 dpkg || true
+    # - sudo dpkg --configure -a
+    # # Install basics.
+    - sudo apt-get upgrade && sudo apt-get update
+    - sudo apt-get install -y build-essential curl unzip psmisc
+    - sudo apt install gcc git gnupg g++ make
+    - sudo apt install default-jre default-jdk
+    - sudo apt install redis-tools
+    # Install Node.js in order to build the dashboard.
+    - curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash
+    - sudo apt-get install -y nodejs
+    # Install Anaconda.
+    - wget https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh || true
+    - bash Anaconda3-2020.02-Linux-x86_64.sh -b -p $HOME/anaconda3 || true
+    - echo 'export PATH="$HOME/anaconda3/bin:$PATH"' >> ~/.bashrc
+    - conda install redis-py
+    # Build Ray.
+    - git clone https://github.com/gabrieleoliaro/ray.git || true
+    - cd ray && git checkout atomic_work_stealing && cd .. || true
+    - pip install PyQt5==5.12.3 PyQtWebEngine==5.12.1 pytest-cov pytest-filter-subpackage
+    - sudo ray/ci/travis/install-bazel.sh
+    - cd ray/dashboard/client; sudo npm install; sudo npm run build
+    - pip install boto3==1.4.8 cython==0.29.0 pytest aiohttp grpcio psutil setproctitle 
+    # Set the bazel cache
+    - echo 'build --disk_cache=~/bazel-cache' >> ~/.bazelrc
+    - cd ray/python; pip install -e . --verbose
+    # Set the Ray debugging environmental variable
+    #- echo 'export RAY_BACKEND_LOG_LEVEL="debug"' >> ~/.bashrc
     
     
  

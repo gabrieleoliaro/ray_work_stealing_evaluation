@@ -40,6 +40,7 @@ if __name__ == "__main__":
 	parser.add_argument('-c', '--ncpus', type=str, required=True, help="the number of cores used (delimited list input)")
 	parser.add_argument('-x', '--x_axis_entries', type=int_type_x_axis_entries, required=True, help="the max number of max_tasks_in_flight entries to plot on the x-axis")
 	parser.add_argument('-o', '--data_folder', required=True, help="the path to the data folder")
+	parser.add_argument('-m', '--mode', type=int, default=0, choices=[0,1], help="option to use instantaneous tasks (0) or long tasks (1)")
 	args = parser.parse_args()
 
 	ntrials = args.ntrials
@@ -48,6 +49,7 @@ if __name__ == "__main__":
 	ncpus = [int(item) for item in args.ncpus.split()]
 	x_axis_entries = args.x_axis_entries
 	data_folder = args.data_folder
+	mode = args.mode
 
 	assert(x_axis_entries <= len(max_tasks_in_flight_vals))
 	
@@ -57,23 +59,110 @@ if __name__ == "__main__":
 	print("Number of cores values: ", ncpus)
 	print("Number of X-axis entries: ", x_axis_entries)
 	print("Data folder path: ", data_folder)
+	print("Mode: instantaneous tasks" if mode == 0 else "Mode: long tasks")
+
+	if mode == 0:
+		# Define x axis to be the list of max_tasks_in_flight_vals considered in the experiments 
+		X = np.array(max_tasks_in_flight_vals).astype(int)
+		print("X: ", X)
+
+		P = len(max_tasks_in_flight_vals)
+		assert(P==len(X))
+		C = len(ncpus)
+
+		Y0 = np.full((C,P, 2), np.inf)
+		Y1 = np.full((C,P, 2), np.inf)
+		print(np.shape(Y0), np.shape(Y1))
+
+		for a in range(C):
+			work_stealing = 0
+			input_filename = "{}/data-{}-WS-{}-CPUS.txt".format(data_folder, work_stealing, ncpus[a])
+			print("Opening input file: {}".format(input_filename))
+			assert(os.path.isfile(input_filename))
+			with open(input_filename, 'r') as input_file:
+				lines = input_file.readlines()
+				line_index = 0
+				for b in range(P):
+					assert(int(lines[line_index].strip().split()[0]) == X[b])
+					line_index += 1
+					temp = np.full(ntrials, np.inf)
+					for trial in range(ntrials):
+						temp[trial] = float(lines[line_index].strip().split()[0])
+						if (temp[trial] == -1):
+							temp[trial] = np.nan
+						line_index += 1
+					#print(temp)
+					Y0[a,b,0] = np.mean(temp)
+					Y0[a,b,1] = np.std(temp)
+
+			work_stealing = 1
+			input_filename = "{}/data-{}-WS-{}-CPUS.txt".format(data_folder, work_stealing, ncpus[a])
+			print("Opening input file: {}".format(input_filename))
+			assert(os.path.isfile(input_filename))
+			with open(input_filename, 'r') as input_file:
+				lines = input_file.readlines()
+				line_index = 0
+				for b in range(P):
+					assert(int(lines[line_index].strip().split()[0]) == X[b])
+					line_index += 1
+					temp = np.full(ntrials, np.inf)
+					for trial in range(ntrials):
+						temp[trial] = float(lines[line_index].strip().split()[0])
+						if (temp[trial] == -1):
+							temp[trial] = np.nan
+						line_index += 1
+					#print(temp)
+					Y1[a,b,0] = np.mean(temp)
+					Y1[a,b,1] = np.std(temp)
 
 
-	# Define x axis to be the list of max_tasks_in_flight_vals considered in the experiments 
-	X = np.array(max_tasks_in_flight_vals).astype(int)
-	print("X: ", X)
 
-	P = len(max_tasks_in_flight_vals)
-	assert(P==len(X))
-	C = len(ncpus)
+		# Generate Work Stealing = false plot
+		plt.figure()
+		for a in range(C):
+			plt.errorbar(X[:x_axis_entries], Y0[a,:x_axis_entries,0], yerr=Y0[a,:x_axis_entries,1])
 
-	Y0 = np.full((C,P, 2), np.inf)
-	Y1 = np.full((C,P, 2), np.inf)
-	print(np.shape(Y0), np.shape(Y1))
+		plt.title("Task throughput vs max_tasks_in_flight \n NTasks={}, Task duration: instantaneous".format(total_n_tasks))
+		plt.xticks(X[:x_axis_entries])
+		plt.xlabel("Max Tasks in Flight to workers")
+		plt.ylabel("Task throughput (task/second)")
+		plt.legend(ncpus)
+		plot_filepath = "{}/plots/plot_task_throughput-0-WS-{}-x_ticks.png".format(data_folder, x_axis_entries)
+		plt.savefig(plot_filepath)
+		print("Saving {}".format(plot_filepath))
+		plt.show()
+		
 
-	for a in range(C):
+
+		# Generate Work Stealing = true plot
+		plt.figure()
+		for a in range(C):
+			plt.errorbar(X[:x_axis_entries], Y1[a,:x_axis_entries,0], yerr=Y1[a,:x_axis_entries,1])
+
+		plt.title("Task throughput vs max_tasks_in_flight \n NTasks={}, Task duration: instantaneous".format(total_n_tasks))
+		plt.xticks(X[:x_axis_entries])
+		plt.xlabel("Max Tasks in Flight to workers")
+		plt.ylabel("Task throughput (task/second)")
+		plt.legend(ncpus)
+		plot_filepath = "{}/plots/plot_task_throughput-1-WS-{}-x_ticks.png".format(data_folder,x_axis_entries)
+		plt.savefig(plot_filepath)
+		print("Saving {}".format(plot_filepath))
+		plt.show()
+	else:
+		# Define x axis to be the list of max_tasks_in_flight_vals considered in the experiments 
+		X = np.array(max_tasks_in_flight_vals).astype(int)
+		print("X: ", X)
+
+		P = len(max_tasks_in_flight_vals)
+		assert(P==len(X))
+
+		Y0 = np.full((P, 2), np.inf)
+		Y1 = np.full((P, 2), np.inf)
+		print(np.shape(Y0), np.shape(Y1))
+
+		
 		work_stealing = 0
-		input_filename = "{}/data-{}-WS-{}-CPUS.txt".format(data_folder, work_stealing, ncpus[a])
+		input_filename = "{}/data-long_tasks-{}-WS.txt".format(data_folder, work_stealing)
 		print("Opening input file: {}".format(input_filename))
 		assert(os.path.isfile(input_filename))
 		with open(input_filename, 'r') as input_file:
@@ -89,11 +178,11 @@ if __name__ == "__main__":
 						temp[trial] = np.nan
 					line_index += 1
 				#print(temp)
-				Y0[a,b,0] = np.mean(temp)
-				Y0[a,b,1] = np.std(temp)
+				Y0[b,0] = np.mean(temp)
+				Y0[b,1] = np.std(temp)
 
 		work_stealing = 1
-		input_filename = "{}/data-{}-WS-{}-CPUS.txt".format(data_folder, work_stealing, ncpus[a])
+		input_filename = "{}/data-long_tasks-{}-WS.txt".format(data_folder, work_stealing)
 		print("Opening input file: {}".format(input_filename))
 		assert(os.path.isfile(input_filename))
 		with open(input_filename, 'r') as input_file:
@@ -109,42 +198,23 @@ if __name__ == "__main__":
 						temp[trial] = np.nan
 					line_index += 1
 				#print(temp)
-				Y1[a,b,0] = np.mean(temp)
-				Y1[a,b,1] = np.std(temp)
+				Y1[b,0] = np.mean(temp)
+				Y1[b,1] = np.std(temp)
 
 
+		plt.figure()
+		# Generate Work Stealing = false plot
+		plt.errorbar(X[:x_axis_entries], Y0[:x_axis_entries,0], yerr=Y0[:x_axis_entries,1])
+		plt.errorbar(X[:x_axis_entries], Y1[:x_axis_entries,0], yerr=Y1[:x_axis_entries,1])
 
-	# Generate Work Stealing = false plot
-	plt.figure()
-	for a in range(C):
-		plt.errorbar(X[:x_axis_entries], Y0[a,:x_axis_entries,0], yerr=Y0[a,:x_axis_entries,1])
-
-	plt.title("Task throughput vs max_tasks_in_flight \n NTasks={}, Task duration: instantaneous".format(total_n_tasks))
-	plt.xticks(X[:x_axis_entries])
-	plt.xlabel("Max Tasks in Flight to workers")
-	plt.ylabel("Task throughput (task/second)")
-	plt.legend(ncpus)
-	plot_filepath = "{}/plots/plot_task_throughput-0-WS-{}-x_ticks.png".format(data_folder, x_axis_entries)
-	plt.savefig(plot_filepath)
-	print("Saving {}".format(plot_filepath))
-	plt.show()
-	
-
-
-	# Generate Work Stealing = true plot
-	plt.figure()
-	for a in range(C):
-		plt.errorbar(X[:x_axis_entries], Y1[a,:x_axis_entries,0], yerr=Y1[a,:x_axis_entries,1])
-
-	plt.title("Task throughput vs max_tasks_in_flight \n NTasks={}, Task duration: instantaneous".format(total_n_tasks))
-	plt.xticks(X[:x_axis_entries])
-	plt.xlabel("Max Tasks in Flight to workers")
-	plt.ylabel("Task throughput (task/second)")
-	plt.legend(ncpus)
-	plot_filepath = "{}/plots/plot_task_throughput-1-WS-{}-x_ticks.png".format(data_folder,x_axis_entries)
-	plt.savefig(plot_filepath)
-	print("Saving {}".format(plot_filepath))
-	plt.show()
-
+		plt.title("Task throughput vs max_tasks_in_flight \n NTasks={}, Task duration: 1000ms".format(total_n_tasks))
+		plt.xticks(X[:x_axis_entries])
+		plt.xlabel("Max Tasks in Flight to workers")
+		plt.ylabel("Task throughput (task/second)")
+		plt.legend(("Baseline", "Work Stealing"))
+		plot_filepath = "{}/plots/plot_task_throughput-long_tasks-0-WS-{}-x_ticks.png".format(data_folder, x_axis_entries)
+		plt.savefig(plot_filepath)
+		print("Saving {}".format(plot_filepath))
+		plt.show()
 
 	

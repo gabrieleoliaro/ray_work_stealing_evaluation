@@ -213,7 +213,7 @@ if __name__ == "__main__":
 		plt.xlabel("Max Tasks in Flight to workers")
 		plt.ylabel("Task throughput (task/second)")
 		plt.legend(("Baseline", "Work Stealing"))
-		plot_filepath = "{}/plots/plot_task_throughput-long_tasks-0-WS-{}-x_ticks.png".format(data_folder, x_axis_entries)
+		plot_filepath = "{}/plots/plot_task_throughput-long_tasks-{}-x_ticks.png".format(data_folder, x_axis_entries)
 		plt.savefig(plot_filepath)
 		print("Saving {}".format(plot_filepath))
 		plt.show()

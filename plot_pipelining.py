@@ -173,7 +173,7 @@ if __name__ == "__main__":
 				line_index += 1
 				temp = np.full(ntrials, np.inf)
 				for trial in range(ntrials):
-					temp[trial] = float(lines[line_index].strip().split()[0])
+					temp[trial] = total_n_tasks / float(lines[line_index].strip().split()[0])
 					if (temp[trial] == -1):
 						temp[trial] = np.nan
 					line_index += 1
@@ -193,13 +193,14 @@ if __name__ == "__main__":
 				line_index += 1
 				temp = np.full(ntrials, np.inf)
 				for trial in range(ntrials):
-					temp[trial] = float(lines[line_index].strip().split()[0])
+					temp[trial] = total_n_tasks / float(lines[line_index].strip().split()[0])
 					if (temp[trial] == -1):
 						temp[trial] = np.nan
 					line_index += 1
 				#print(temp)
 				Y1[b,0] = np.mean(temp)
 				Y1[b,1] = np.std(temp)
+
 
 
 		plt.figure()

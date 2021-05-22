@@ -44,7 +44,7 @@ if [ $1 -eq 0 ]; then
 
 
 	cd ${output_path} && mkdir -p plots && cd ../..
-	python plot_pipelining.py -t ${ntrials} -p "${max_tasks_in_flight_vals[*]}" -n ${total_n_tasks} -c "${ncpus[*]}" -x 9 -o ${output_path}
+	python plot_pipelining.py -t ${ntrials} -p "${max_tasks_in_flight_vals[*]}" -n ${total_n_tasks} -c "${ncpus[*]}" -x 9 -o ${output_path} -m 1
 
 elif [ $1 -eq 1 ]; then
 	echo "Running the pipelining evaluation with long tasks (duration=1000ms)"
@@ -84,6 +84,10 @@ elif [ $1 -eq 1 ]; then
 			done
 		done
 	done
+
+	cd ${output_path} && mkdir -p plots && cd ../..
+	python plot_pipelining.py -t ${ntrials} -p "${max_tasks_in_flight_vals[*]}" -n ${total_n_tasks} -c ${ncpus} -x 9 -o ${output_path} -m 1
+
 else
 	echo "Usage ./run_pipelining_eval.sh <mode>"
 	exit

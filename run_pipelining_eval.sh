@@ -79,7 +79,7 @@ elif [ $1 -eq 1 ]; then
 		for max_tasks_in_flight in ${max_tasks_in_flight_vals[@]}; do
 			echo ${max_tasks_in_flight} >> ${output_file}
 			for (( i=0; i<$ntrials; ++i)); do
-				timeout 200s python variable_length_tasks.py -s ${total_n_tasks}000 -i 1000 -c ${total_n_tasks} -p ${max_tasks_in_flight} -w ${work_stealing} -o ${output_file} -d 0
+				timeout 200s python variable_length_tasks.py -s ${total_n_tasks} -i 1000 -c ${total_n_tasks} -p ${max_tasks_in_flight} -w ${work_stealing} -o ${output_file} -d 0
 				ray stop --force
 			done
 		done

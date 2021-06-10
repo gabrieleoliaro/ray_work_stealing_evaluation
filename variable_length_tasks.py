@@ -110,7 +110,7 @@ if __name__ == "__main__":
 
 	config = {}
 	config["max_tasks_in_flight_per_worker"] = args.max_tasks_in_flight
-	config["work_stealing"] = args.work_stealing_enabled
+	#config["work_stealing"] = args.work_stealing_enabled
 
 	ray.init(num_cpus=args.ncpus,_system_config=config)
 	#ray.init(_system_config=config)
